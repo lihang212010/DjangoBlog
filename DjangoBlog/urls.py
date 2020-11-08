@@ -23,6 +23,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from DjangoBlog.admin_site import admin_site
 from django.urls import include, path
+from DjangoBlog import designView, answerView
+from django.views.generic import TemplateView
 
 sitemaps = {
 
@@ -37,20 +39,28 @@ handler404 = 'blog.views.page_not_found_view'
 handler500 = 'blog.views.server_error_view'
 handle403 = 'blog.views.permission_denied_view'
 urlpatterns = [
-    url(r'^admin/', admin_site.urls),
-    url(r'', include('blog.urls', namespace='blog')),
-    url(r'mdeditor/', include('mdeditor.urls')),
-    url(r'', include('comments.urls', namespace='comment')),
-    url(r'', include('accounts.urls', namespace='account')),
-    url(r'', include('oauth.urls', namespace='oauth')),
-    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps},
-        name='django.contrib.sitemaps.views.sitemap'),
-    url(r'^feed/$', DjangoBlogFeed()),
-    url(r'^rss/$', DjangoBlogFeed()),
-    url(r'^search', include('haystack.urls'), name='search'),
-    url(r'', include('servermanager.urls', namespace='servermanager')),
-    url(r'', include('owntracks.urls', namespace='owntracks'))
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+                  url(r'^admin/', admin_site.urls),
+                  url(r'', include('blog.urls', namespace='blog')),
+                  url(r'mdeditor/', include('mdeditor.urls')),
+                  url('^api/design', designView.opera),  # 问卷设计者操作
+                  url('^api/answer', answerView.opera),  # 问卷回答者操作
+                  # url(r'home/', TemplateView.as_view(template_name="index.html")),
+                  # url(r'^$', TemplateView.as_view(template_name="index.html")),
+                  # url(r'index/', TemplateView.as_view(template_name="index.html")),
+                  # url(r'resetpass/', TemplateView.as_view(template_name="index.html")),
+                  # url(r'^display.*$', TemplateView.as_view(template_name="index.html")),
+                  # url(r'thankyou/', TemplateView.as_view(template_name="index.html")),
+                  url(r'', include('comments.urls', namespace='comment')),
+                  url(r'', include('accounts.urls', namespace='account')),
+                  url(r'', include('oauth.urls', namespace='oauth')),
+                  url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps},
+                      name='django.contrib.sitemaps.views.sitemap'),
+                  url(r'^feed/$', DjangoBlogFeed()),
+                  url(r'^rss/$', DjangoBlogFeed()),
+                  url(r'^search', include('haystack.urls'), name='search'),
+                  url(r'', include('servermanager.urls', namespace='servermanager')),
+                  url(r'', include('owntracks.urls', namespace='owntracks'))
+              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)

@@ -1,56 +1,94 @@
-#!/usr/bin/env python
-# encoding: utf-8
+import requests as r
+import json
+
+api='http://127.0.0.1:8000/api/design'
+
+#创建问卷
+def opera_addWj():
+    data={
+        'username':'test',
+        'opera_type':'add_wj',
+        'title':'测试问卷',
+
+    }
+    res=r.post(api,data=json.dumps(data))
+    print(res.text)
+    print(res.json())
 
 
-"""
-@version: ??
-@author: liangliangyy
-@license: MIT Licence
-@contact: liangliangyy@gmail.com
-@site: https://www.lylinux.net/
-@software: PyCharm
-@file: tests.py
-@time: 2017/10/25 下午10:16
-"""
+#删除问卷
+def opera_deleteWj():
+    data={
+        'username':'test',
+        'opera_type':'delete_wj',
+        'id':'3',
 
-from django.test import Client, RequestFactory, TestCase
-from blog.models import Article, Category, Tag
-from django.contrib.auth import get_user_model
-from DjangoBlog.utils import get_current_site
-from django.urls import reverse
-import datetime
-from DjangoBlog.utils import *
+    }
+    res=r.post(api,data=json.dumps(data))
+    print(res.text)
+    print(res.json())
+
+#添加单选题
+def addRadioQuestion():
+    data={
+        'username':'test',
+        'opera_type':'add_question',
+        'wjId':'4',
+        'title':'您的性别是？',
+        'type':'radio',
+        'options':['男','女']
+    }
+    res = r.post(api + '/opera', data=json.dumps(data))
+    print(res.text)
+    print(res.json())
+
+#添加多选题
+def addCheckboxQuestion():
+    data={
+        'username':'test',
+        'opera_type':'add_question',
+        'wjId':'4',
+        'title':'您的爱好有？',
+        'type':'checkbox',
+        'options':['唱','跳','rap','篮球']
+    }
+    res = r.post(api + '/opera', data=json.dumps(data))
+    print(res.text)
+    print(res.json())
 
 
-class DjangoBlogTest(TestCase):
-    def setUp(self):
-        pass
+#添加填空题
+def addInputQuestion():
+    data={
+        'username':'test',
+        'opera_type':'add_question',
+        'wjId':'4',
+        'title':'您的联系方式是？',
+        'type':'text',
+        'row':1,
+    }
+    res = r.post(api + '/opera', data=json.dumps(data))
+    print(res.text)
+    print(res.json())
 
-    def test_utils(self):
-        md5 = get_md5('test')
-        self.assertIsNotNone(md5)
-        c = CommonMarkdown.get_markdown('''
-        # Title1
-
-        ```python
-        import os
-        ```
-
-        [url](https://www.lylinux.net/)
-
-        [ddd](http://www.baidu.com)
+#删除题目
+def deleteQuestion():
+    data={
+        'username':'test',
+        'opera_type':'delete_question',
+        'questionId':'9',
+    }
+    res = r.post(api + '/opera', data=json.dumps(data))
+    print(res.text)
+    print(res.json())
 
 
-        ''')
-        self.assertIsNotNone(c)
-        d = {
-            'd': 'key1',
-            'd2': 'key2'
-        }
-        data = parse_dict_to_url(d)
-        self.assertIsNotNone(data)
-        render = BlogMarkDownRenderer()
-        s = render.autolink('http://www.baidu.com')
-        self.assertTrue(s.find('nofollow') > 0)
-        s = render.link('http://www.baidu.com', 'test', 'test')
-        self.assertTrue(s.find('nofollow') > 0)
+
+
+opera_addWj()
+# opera_deleteWj()
+# addRadioQuestion()
+# addCheckboxQuestion()
+# addInputQuestion()
+
+# deleteQuestion()
