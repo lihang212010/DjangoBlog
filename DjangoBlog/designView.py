@@ -13,6 +13,7 @@ import base64
 #最后更新：2019-05-23
 ############################################################
 def opera(request):
+    print("designView")
     response={'code':0,'msg':'success'}
     if request.method=='POST':
         body=str(request.body,encoding='utf-8')
@@ -24,7 +25,7 @@ def opera(request):
             response['msg'] = '请求格式有误'
         else:
             opera_type = info.get('opera_type')  # 获取操作类型
-            username = request.session.get('username')
+            username = "admin"
             if opera_type:#如果操作类型不为空
                 if  opera_type == 'logincheck':
                     response = loginCheck(request)
@@ -425,7 +426,7 @@ def getQuestionAnalysis(questionId):
 
     result=[]
     cursor=connection.cursor()
-    cursor.execute('select A.id,count(B.submitId),A.title from (select * from myAdmin_options where questionId=%s) A left join myAdmin_answer B on A.id=B.answer group by A.id'%questionId)
+    cursor.execute('select A.id,count(B.submitId),A.title from (select * from blog_options where questionId=%s) A left join blog_answer B on A.id=B.answer group by A.id'%questionId)
     rows=cursor.fetchall()
     total=0
     for id,count,title in rows:

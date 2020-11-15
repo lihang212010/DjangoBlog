@@ -42,14 +42,14 @@ urlpatterns = [
                   url(r'^admin/', admin_site.urls),
                   url(r'', include('blog.urls', namespace='blog')),
                   url(r'mdeditor/', include('mdeditor.urls')),
-                  url('^api/design', designView.opera),  # 问卷设计者操作
-                  url('^api/answer', answerView.opera),  # 问卷回答者操作
-                  # url(r'home/', TemplateView.as_view(template_name="index.html")),
-                  # url(r'^$', TemplateView.as_view(template_name="index.html")),
+                  url(r'^api/design', designView.opera),  # 问卷设计者操作
+                  url(r'^api/answer', answerView.opera),  # 问卷回答者操作
+                  url(r'home/', TemplateView.as_view(template_name="index.html")),
+                  url(r'^$', TemplateView.as_view(template_name="index.html")),
                   # url(r'index/', TemplateView.as_view(template_name="index.html")),
-                  # url(r'resetpass/', TemplateView.as_view(template_name="index.html")),
-                  # url(r'^display.*$', TemplateView.as_view(template_name="index.html")),
-                  # url(r'thankyou/', TemplateView.as_view(template_name="index.html")),
+                  url(r'resetpass/', TemplateView.as_view(template_name="index.html")),
+                  url(r'^display.*$', TemplateView.as_view(template_name="index.html")),
+                  url(r'thankyou/', TemplateView.as_view(template_name="index.html")),
                   url(r'', include('comments.urls', namespace='comment')),
                   url(r'', include('accounts.urls', namespace='account')),
                   url(r'', include('oauth.urls', namespace='oauth')),
@@ -60,7 +60,7 @@ urlpatterns = [
                   url(r'^search', include('haystack.urls'), name='search'),
                   url(r'', include('servermanager.urls', namespace='servermanager')),
                   url(r'', include('owntracks.urls', namespace='owntracks'))
-              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
+              ] + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
+# if settings.DEBUG:
+#     urlpatterns += static(settings.MEDIA_URL,
+#                           document_root=settings.MEDIA_ROOT)
